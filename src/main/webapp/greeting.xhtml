@@ -21,7 +21,7 @@
             <h2>
                 <h:outputText value="#{bundle.Welcome}"/>
             </h2>
-            <h:outputText value="#{bundle.DukeIs}" />
+            <h:outputText value="#{bundle.DukeIs} " />
             <h:outputText value="#{dukesBDay.age} #{bundle.YearsOldToday}"/>
             <p/>
             <h:outputText value="#{bundle.Instructions}"/>
@@ -29,7 +29,7 @@
             <h:outputText value="#{bundle.YourBD}"/>
             <fc:inputDate id="userBirthDay" date="#{dukesBDay.yourBD}"/>
             <p/>
-            <h:commandButton value="#{bundle.Submit}" action="#{dukesBDay.processBirthday()}"
+            <h:commandButton value="#{bundle.Submit}" action="#{dukesBDay.processBirthday()}"/>
         </h:form>
 
     </h:body>
