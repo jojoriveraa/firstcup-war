@@ -7,7 +7,6 @@
  */
 package firstcup.web;
 
-import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
 import firstcup.ejb.DukesBirthdayBean;
 import java.io.Serializable;
 import java.util.Date;
