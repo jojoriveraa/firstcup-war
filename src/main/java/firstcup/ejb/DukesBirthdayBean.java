@@ -24,17 +24,41 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class DukesBirthdayBean {
 
-    private static final Logger logger =
-            Logger.getLogger("firstcup.ejb.DukesBirthdayBean");
+    private static final Logger logger
+            = Logger.getLogger("firstcup.ejb.DukesBirthdayBean");
 
     @PersistenceContext
     private EntityManager em;
 
     public Double getAverageAgeDifference() {
-		// Insert code here
+        Double avgAgeDiff = (Double) em.createNamedQuery("findAverageAgeDifferenceOfAllFirstcupUsers")
+                .getSingleResult();
+        logger.log(Level.INFO, "Average age difference is: {0}", avgAgeDiff);
+        return avgAgeDiff;
     }
 
     public int getAgeDifference(Date date) {
-		// Insert code here
+        int ageDifference;
+
+        Calendar theirBirthday = new GregorianCalendar();
+        Calendar dukesBirthday = new GregorianCalendar(1995, Calendar.MAY, 23);
+
+        theirBirthday.setTime(date);
+
+        ageDifference = dukesBirthday.get(Calendar.YEAR) - theirBirthday.get(Calendar.YEAR);
+
+        logger.log(Level.INFO, "Raw ageDifference is: {0}", ageDifference);
+
+        if (dukesBirthday.before(theirBirthday) && (ageDifference > 0)) {
+            ageDifference--;
+        }
+
+        FirstcupUser user = new FirstcupUser(date, ageDifference);
+        em.persist(user);
+
+        logger.log(Level.INFO, "Final ageDifference is: {0}", ageDifference);
+
+        return ageDifference;
+
     }
 }
