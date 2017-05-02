@@ -7,6 +7,7 @@
  */
 package firstcup.web;
 
+import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationException;
 import firstcup.ejb.DukesBirthdayBean;
 import java.io.Serializable;
 import java.util.Date;
@@ -35,22 +36,31 @@ public class DukesBDay implements Serializable {
     protected Double averageAgeDifference;
     private static final Logger logger = Logger.getLogger("firstcup.web.DukesBDay");
 
-
-    /** Creates a new instance of DukesBDay */
+    /**
+     * Creates a new instance of DukesBDay
+     */
     public DukesBDay() {
     }
 
     public String processBirthday() {
-		// Insert code here
+        // Insert code here
     }
-    
+
     /**
      * Get the value of age
      *
      * @return the value of age
      */
     public int getAge() {
-		// Insert code here
+        try {
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target("http://localhost:8080/dukes-age/webapi/dukesAge");
+            String response = target.request().get(String.class);
+            age = Integer.parseInt(response);
+        } catch (IllegalArgumentException | NullPointerException | WebApplicationException ex) {
+            logger.severe("processing of HTTP response failed");
+        }
+        return age;
     }
 
     /**
